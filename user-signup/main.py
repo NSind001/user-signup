@@ -28,33 +28,44 @@ def username():
     password_error=''
     different_password_error=''
     email_error=''
+    error = 0
 
     if user_name =='':
         username_error = "Must enter Username with more than 3 characters and less than 20, no spaces."
-        return template_username.render(username_error = username_error)
+        error += 1
+        #return template_username.render(username_error = username_error)
     if len(user_name) < 3 or len(user_name) > 20:
         username_error = "Must enter Username with more than 3 characters and less than 20, no spaces."
-        return template_username.render(username_error=username_error)
+        error += 1
+        #return template_username.render(username_error=username_error)
     for character in user_name:
         if character == ' ':
             username_error = "No spaces in username"
-            return template_username.render(username_error=username_error)
+            error += 1
+            #return template_username.render(username_error=username_error)
 
     if password == '':
         password_error = "Must enter a password with more than 3 characters and less than 20, no spaces."
-        return template_username.render(password_error=password_error)
+        error += 1
+        #return template_username.render(password_error=password_error)
     if len(password) < 3 or len(password) > 20:
         password_error = "Must enter password with more than 3 characters and less than 20, no spaces."
-        return template_username.render(password_error=password_error)
+        error += 1
+        #return template_username.render(password_error=password_error)
 
     if same_password != password:
         different_password_error = "Verify if password is the same and re-enter"
-        return template_username.render(different_password_error=different_password_error)
+        error += 1
+        #return template_username.render(different_password_error=different_password_error)
 
     if email != '' and ('@'not in list(email) or '.' not in list(email)):
         email_error = "Please enter valid email"
-        return template_username.render(email_error=email_error)
+        error += 1
+        #return template_username.render(email_error=email_error)
     
-    return template_greeting.render(username=user_name)
+    if error > 0:
+        return template_username.render(username_error=username_error, password_error=password_error, different_password_error=different_password_error, email_error=email_error, username=user_name, email=email)
+    else:
+        return template_greeting.render(username=user_name)
 
 app.run()
